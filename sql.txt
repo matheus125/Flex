@@ -1,0 +1,251 @@
+use flex;
+
+select * from tb_turno;
+select * from tb_horario;
+select * from tb_turma;
+select * from tb_curso;
+
+
+select * from tb_estado;
+select * from tb_cidade;
+select * from tb_bairro;
+select * from tb_cep;
+select * from tb_endereco;
+
+select * from tb_aluno;
+
+select * from tb_venda;
+select * from tb_itens_vendas;
+select * from tb_parcela_venda;
+select * from tb_users;
+
+
+CREATE TABLE `tb_turno` (
+  `id_turno` int(11) NOT NULL AUTO_INCREMENT,
+  `turno_curso` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_turno`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_horario` (
+  `id_horario` int(11) NOT NULL AUTO_INCREMENT,
+  `hora_curso` varchar(50) NOT NULL,
+  `dia_curso` varchar(15) NOT NULL,
+  PRIMARY KEY (`id_horario`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_turma` (
+  `id_turma` int(11) NOT NULL AUTO_INCREMENT,
+  `turma_curso` varchar(50) NOT NULL,
+  `id_turma_turno` int(11) DEFAULT NULL,
+  `id_turma_horario` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_turma`),
+  KEY `id_turma_turno` (`id_turma_turno`),
+  KEY `id_turma_horario` (`id_turma_horario`),
+  CONSTRAINT `tb_turma_ibfk_1` FOREIGN KEY (`id_turma_turno`) REFERENCES `tb_turno` (`id_turno`),
+  CONSTRAINT `tb_horario_ibfk_2` FOREIGN KEY (`id_turma_horario`) REFERENCES `tb_horario` (`id_horario`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_curso` (
+  `id_curso` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_curso` varchar(50) NOT NULL,
+  `valor_curso` decimal(8,2) DEFAULT NULL,
+  `id_turma_curso` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_curso`),
+  KEY `id_turma_curso` (`id_turma_curso`),
+  CONSTRAINT `tb_curso_ibfk_1` FOREIGN KEY (`id_turma_curso`) REFERENCES `tb_turma` (`id_turma`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_estado` (
+  `id_estado` int(11) NOT NULL AUTO_INCREMENT,
+  `sigla` varchar(2) NOT NULL,
+  PRIMARY KEY (`id_estado`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_cidade` (
+  `id_cidade` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_cidade` varchar(100) NOT NULL,
+  `id_estado_cidade` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_cidade`),
+  KEY `id_estado_cidade` (`id_estado_cidade`),
+  CONSTRAINT `tb_cidade_ibfk_1` FOREIGN KEY (`id_estado_cidade`) REFERENCES `tb_estado` (`id_estado`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_bairro` (
+  `id_bairro` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_bairro` varchar(100) NOT NULL,
+  `id_cidade_bairro` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_bairro`),
+  KEY `id_cidade_bairro` (`id_cidade_bairro`),
+  CONSTRAINT `tb_bairro_ibfk_1` FOREIGN KEY (`id_cidade_bairro`) REFERENCES `tb_cidade` (`id_cidade`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_cep` (
+  `id_cep` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cep_bairro` int(11) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id_cep`),
+  KEY `id_cep_bairro` (`id_cep_bairro`),
+  CONSTRAINT `tb_cep_ibfk_1` FOREIGN KEY (`id_cep_bairro`) REFERENCES `tb_bairro` (`id_bairro`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_endereco` (
+  `id_endereco` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cep_endereco` int(11) DEFAULT NULL,
+  `Logradouro` varchar(50) NOT NULL,
+  `numeroCasa` varchar(15) NOT NULL,
+  `complemento` varchar(15) NOT NULL,
+  PRIMARY KEY (`id_endereco`),
+  KEY `id_cep_endereco` (`id_cep_endereco`),
+  CONSTRAINT `tb_endereco_ibfk_1` FOREIGN KEY (`id_cep_endereco`) REFERENCES `tb_cep` (`id_cep`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_dados_financeiro_responsavel` (
+  `id_conta` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao conta` varchar(50) NOT NULL,
+  `Banco` varchar(50) NOT NULL,
+  `numero da conta` varchar(30) NOT NULL unique,
+  `agencia` varchar(15) NOT NULL,
+  `codigo` int(10) NOT NULL unique,
+  PRIMARY KEY (`id_conta`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_responsaval_financeiro` (
+  `id_responsavel` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_responsavel` varchar(80) NOT NULL,
+  `rg` varchar(15) NOT NULL unique,
+  `cpf` varchar(14) NOT NULL unique,
+  `id_conta_responsavel` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_responsavel`),
+  KEY `id_conta_responsavel` (`id_conta_responsavel`),
+  CONSTRAINT `tb_responsaval_financeiro_ibfk_1` FOREIGN KEY (`id_conta_responsavel`) REFERENCES `tb_dados_financeiro_responsavel` (`id_conta`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_aluno` (
+  `id_aluno` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `nome_mae` varchar(50) NOT NULL,
+  `nome_pai` varchar(50) NOT NULL,
+  `estado_civil` varchar(15) NOT NULL,
+  `dt_nascimento` varchar(15) NOT NULL,
+  `rg` varchar(15) NOT NULL unique,
+  `cpf` varchar(14) NOT NULL unique,
+  `email` varchar(50) NOT NULL unique,
+  `sexo` varchar(16) NOT NULL,
+  `celular` varchar(16) NOT NULL unique,
+  `id_Alu_Curso` int(11) DEFAULT NULL,
+  `id_enderecoAluno` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_aluno`),
+  KEY `id_Alu_Curso` (`id_Alu_Curso`),
+  KEY `id_enderecoAluno` (`id_enderecoAluno`),
+  CONSTRAINT `tb_aluno_ibfk_1` FOREIGN KEY (`id_Alu_Curso`) REFERENCES `tb_curso` (`id_curso`),
+  CONSTRAINT `tb_aluno_ibfk_2` FOREIGN KEY (`id_enderecoAluno`) REFERENCES `tb_endereco` (`id_endereco`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_venda` (
+  `id_venda` int(11) NOT NULL AUTO_INCREMENT,
+  `id_aluno_venda` int(11) DEFAULT NULL,
+  `data_venda` varchar(50) DEFAULT NULL,
+  `valor_total` decimal(8,2) DEFAULT NULL,
+  `tipo_pagamento` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_venda`),
+  KEY `id_aluno_venda` (`id_aluno_venda`),
+  CONSTRAINT `tb_venda_curso_ibfk_1` FOREIGN KEY (`id_aluno_venda`) REFERENCES `tb_aluno` (`id_aluno`)
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_itens_vendas` (
+  `id_venda` int(11) NOT NULL,
+  `id_curso` int(11) NOT NULL,
+  `quantidade` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_venda`,`id_curso`),
+  KEY `fk_curso` (`id_curso`),
+  CONSTRAINT `fk_curso` FOREIGN KEY (`id_curso`) REFERENCES `tb_curso` (`id_curso`),
+  CONSTRAINT `fk_venda` FOREIGN KEY (`id_venda`) REFERENCES `tb_venda` (`id_venda`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_parcela_venda` (
+  `id_parc_venda` int(11) NOT NULL AUTO_INCREMENT,
+  `cod_venda` int(11) DEFAULT NULL,
+  `valor_venda` decimal(8,2) NOT NULL,
+  `valor_total` decimal(8,2) NOT NULL,
+  `valor_parcelas` int(11) NOT NULL,
+  `numero_parcela` int(11) NOT NULL,
+  `data_vencimento` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id_parc_venda`),
+  KEY `cod_venda` (`cod_venda`),
+  CONSTRAINT `parcela_venda_ibfk_1` FOREIGN KEY (`cod_venda`) REFERENCES `tb_venda` (`id_venda`)
+) ENGINE=InnoDB AUTO_INCREMENT=591 DEFAULT CHARSET=utf8;
+
+CREATE TABLE tb_persons (
+  idperson int(11) NOT NULL AUTO_INCREMENT,
+  desperson varchar(64) NOT NULL,
+  desemail varchar(128) DEFAULT NULL unique,
+  nrphone varchar(20) DEFAULT NULL,
+  dtregister timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (idperson)
+); 
+
+CREATE TABLE `tb_users` (
+  `iduser` int(11) NOT NULL AUTO_INCREMENT,
+  `idperson` int(11) NOT NULL,
+  `deslogin` varchar(64) NOT NULL unique,
+  `despassword` varchar(256) NOT NULL,
+  `inadmin` varchar(20) NOT NULL,
+  `dtregister` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`iduser`),
+  KEY `FK_users_persons_idx` (`idperson`),
+  CONSTRAINT `fk_users_persons` FOREIGN KEY (`idperson`) REFERENCES `tb_persons` (`idperson`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+
+select * from view_aluno;
+
+select * from relatorio_pagamento;
+
+select a.id_aluno AS 'CODIGO ALUNO',
+		a.nome AS 'ALUNO',
+		a.nome_mae AS 'NOME MAE',
+        a.nome_pai AS 'NOME PAI',
+        a.estado_civil AS 'ESTADO CIVIL',
+        a.dt_nascimento AS 'DATA NASCIMENTO',
+        a.rg AS 'RG',
+        a.cpf AS 'CPF',
+        a.email AS 'E-EMAIL',
+        a.sexo AS 'SEXO',
+        a.celular AS 'CELULAR',
+        c.id_curso AS 'CODIGO CURSO',
+        c.nome_curso AS 'CURSO',
+        h.dia_curso AS 'DIA',
+        h.hora_curso AS 'HORARIO',
+        tu.turma_curso AS 'TURMA',
+        t.turno_curso AS 'TURNO',
+        c.valor_curso AS 'VALOR CURSO',
+        ce.id_cep AS 'CODIGO CEP',
+        ce.cep as 'CEP',
+        b.id_bairro as 'CODIGO BAIRRO',
+        b.nome_bairro as 'NOME BAIRRO',
+        e.Logradouro As 'LOGRADOURO',
+        e.numeroCasa AS 'NUMERO CASA',
+        e.complemento AS 'COMPLEMENTO',
+        cid.nome_cidade AS 'CIDADE',
+        es.sigla AS 'SIGLA'
+        from tb_aluno a 
+        inner join tb_curso c on a.id_Alu_Curso = c.id_curso
+        inner join tb_endereco e on a.id_enderecoAluno = e.id_endereco
+        inner JOIN tb_cep ce ON e.id_cep_endereco = ce.id_cep
+        inner JOIN tb_bairro b ON ce.id_cep_bairro = b.id_bairro
+		inner JOIN tb_cidade cid ON b.id_cidade_bairro = cid.id_cidade
+        inner JOIN tb_estado es ON cid.id_estado_cidade = es.id_estado
+		inner JOIN tb_turno t ON c.id_curso = t.id_turno
+        inner JOIN tb_turma tu ON c.id_curso = tu.id_turma
+        inner JOIN tb_horario h on c.id_curso = h.id_horario;
+              
+       
+		select a.nome, c.nome_curso, c.valor_curso,
+        v.data_venda,v.valor_total,v.tipo_pagamento 
+        from tb_venda v inner join 
+        tb_aluno a inner join 
+        tb_curso c ;
+        
+ 
+ 
+        

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioPagamento" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="32f38a62-b11b-4ed6-b93a-fb5bd99c1d6f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     relatorio_pagamento.`nome` AS relatorio_pagamento_nome,
+     relatorio_pagamento.`nome_curso` AS relatorio_pagamento_nome_curso,
+     relatorio_pagamento.`valor_curso` AS relatorio_pagamento_valor_curso,
+     relatorio_pagamento.`data_venda` AS relatorio_pagamento_data_venda,
+     relatorio_pagamento.`valor_total` AS relatorio_pagamento_valor_total,
+     relatorio_pagamento.`tipo_pagamento` AS relatorio_pagamento_tipo_pagamento
+FROM
+     `relatorio_pagamento` relatorio_pagamento]]>
+	</queryString>
+	<field name="relatorio_pagamento_nome" class="java.lang.String"/>
+	<field name="relatorio_pagamento_nome_curso" class="java.lang.String"/>
+	<field name="relatorio_pagamento_valor_curso" class="java.math.BigDecimal"/>
+	<field name="relatorio_pagamento_data_venda" class="java.lang.String"/>
+	<field name="relatorio_pagamento_valor_total" class="java.math.BigDecimal"/>
+	<field name="relatorio_pagamento_tipo_pagamento" class="java.lang.String"/>
+	<group name="relatorio_pagamento_nome">
+		<groupExpression><![CDATA[$F{relatorio_pagamento_nome}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="59" uuid="84cfc77f-4b1f-4507-b6b2-b2b8e0848952"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Relatórios de Pagamentos]]></text>
+			</staticText>
+			<image>
+				<reportElement x="25" y="0" width="153" height="59" uuid="2ddd9e37-8ed9-41cc-ad45-b5926eb8368b"/>
+				<imageExpression><![CDATA["D:\\Projetos\\Flex\\FlexPeak\\relatorios_venda\\img\\images (1).png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="73" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="27" width="80" height="20" uuid="2899a0d2-2e1f-4a9a-99d0-3ef40998c3f8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="27" width="40" height="20" uuid="3e9ea8e1-0616-4016-af7f-366efa05c8d6"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="150" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="5" width="39" height="20" uuid="3372a886-1d6c-40c5-aeb3-53e7e863f9e4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="5" width="43" height="20" uuid="75755111-18ec-4232-b04c-93d8e30f01a7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Curso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="5" width="79" height="20" uuid="6792fdfb-e5b2-4dcc-ae1d-fb8adb260a8f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor_Curso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="58" width="75" height="20" uuid="0dfc314e-77b7-4c3a-831d-2cf07172ca2e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data_Venda:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="58" width="73" height="20" uuid="3d58126c-88b8-4b76-9990-d3108bab197a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor_Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="58" width="105" height="20" uuid="3d43f8df-7b33-49f9-9cd4-d187047e5b66"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo_Pagamento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="42" y="5" width="156" height="20" uuid="e8f9f6d2-06e7-4763-999c-1d427bc5734c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{relatorio_pagamento_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="274" y="5" width="130" height="20" uuid="b08b345d-89f9-4731-9fc7-17e37a4249fa"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{relatorio_pagamento_nome_curso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="515" y="5" width="100" height="20" uuid="6cf9b2a2-2064-4c3d-9a6b-5551e7a4ff8e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{relatorio_pagamento_valor_curso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="58" width="100" height="20" uuid="d6bce4b4-5d32-49e3-bce8-ca185e1b592b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{relatorio_pagamento_data_venda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="304" y="58" width="100" height="20" uuid="211eb1e3-adab-4c7a-b4d9-c9e72118dcad"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{relatorio_pagamento_valor_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="515" y="58" width="100" height="20" uuid="92928970-da2c-4611-8905-2187efb1a1e9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{relatorio_pagamento_tipo_pagamento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
